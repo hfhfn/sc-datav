@@ -94,7 +94,7 @@ export default function Index() {
     <Wrapper>
       <Canvas camera={{ position: [0, 0, 100], fov: 15 }}>
         <fog attach="fog" args={["#6e6e6e", 8.5, 12]} />
-        <ScrollControls pages={4} infinite>
+        <ScrollControls pages={5} infinite>
           <Rig rotation={[0, 0, 0.15]}>
             <Carousel />
           </Rig>
@@ -139,13 +139,15 @@ function Rig(props: ThreeElements["group"]) {
   return <group ref={ref} {...props} />;
 }
 
-function Carousel({ radius = 1.4, count = 8 }) {
+const demoRoutes = ["/demo0", "/demo1", "/demo2", "/demo3", "/demo4"];
+
+function Carousel({ radius = 1.4, count = 10 }) {
   const navigator = useNavigate();
 
   return Array.from({ length: count }, (_, i) => (
     <Card
       key={i}
-      url={`/sc-datav/demo_${i % 4}.jpg`}
+      url={`/sc-datav/demo_${i % demoRoutes.length}.jpg`}
       position={[
         Math.sin((i / count) * Math.PI * 2) * radius,
         0,
@@ -154,7 +156,7 @@ function Carousel({ radius = 1.4, count = 8 }) {
       rotation={[0, Math.PI + (i / count) * Math.PI * 2, 0]}
       onClick={(e) => {
         e.stopPropagation();
-        navigator(["/demo0", "/demo1", "/demo2", "/demo3"][i % 4]);
+        navigator(demoRoutes[i % demoRoutes.length]);
       }}
     />
   ));
